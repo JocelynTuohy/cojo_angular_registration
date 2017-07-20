@@ -1,20 +1,110 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxOS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAyNTAgMjUwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyNTAgMjUwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPg0KCS5zdDB7ZmlsbDojREQwMDMxO30NCgkuc3Qxe2ZpbGw6I0MzMDAyRjt9DQoJLnN0MntmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxnPg0KCTxwb2x5Z29uIGNsYXNzPSJzdDAiIHBvaW50cz0iMTI1LDMwIDEyNSwzMCAxMjUsMzAgMzEuOSw2My4yIDQ2LjEsMTg2LjMgMTI1LDIzMCAxMjUsMjMwIDEyNSwyMzAgMjAzLjksMTg2LjMgMjE4LjEsNjMuMiAJIi8+DQoJPHBvbHlnb24gY2xhc3M9InN0MSIgcG9pbnRzPSIxMjUsMzAgMTI1LDUyLjIgMTI1LDUyLjEgMTI1LDE1My40IDEyNSwxNTMuNCAxMjUsMjMwIDEyNSwyMzAgMjAzLjksMTg2LjMgMjE4LjEsNjMuMiAxMjUsMzAgCSIvPg0KCTxwYXRoIGNsYXNzPSJzdDIiIGQ9Ik0xMjUsNTIuMUw2Ni44LDE4Mi42aDBoMjEuN2gwbDExLjctMjkuMmg0OS40bDExLjcsMjkuMmgwaDIxLjdoMEwxMjUsNTIuMUwxMjUsNTIuMUwxMjUsNTIuMUwxMjUsNTIuMQ0KCQlMMTI1LDUyLjF6IE0xNDIsMTM1LjRIMTA4bDE3LTQwLjlMMTQyLDEzNS40eiIvPg0KPC9nPg0KPC9zdmc+DQo=">
+<h1>{{title}}</h1>
+<div id="success" *ngIf='succeeded'>
+  <p>Thank you for registering with us, {{user.firstName}}. We just sent
+    you a confirmation email at {{user.email}}, and we will send all
+    mail to {{user.addr1}}<span *ngIf='user.addr2'> {{user.addr2}}</span>,
+    {{user.city}}, {{user.state}}.
+  </p>
+  <p>Have a wonderful day!</p>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="http://angularjs.blogspot.ca/">Angular blog</a></h2>
-  </li>
-</ul>
+<form (submit)="register()" #registrationForm="ngForm" id="registrationForm" name="registrationForm">
+  <fieldset>
+    <legend>Account Information</legend>
+    <div class='formLine'>
+      <label for="firstName">*First Name:</label>
+      <input type="text" id="firstName" name="firstName"
+        [(ngModel)]="user.firstName" #firstName="ngModel" required
+        maxlength="30">
+      <span *ngIf="firstName.dirty && !firstName.valid" class="error">
+        First name is required.
+      </span>
+    </div>
+    <div class='formLine'>
+      <label for="lastName">*Last Name:</label>
+      <input type="text" id="lastName" name="lastName"
+        [(ngModel)]="user.lastName" #lastName="ngModel" required
+        maxlength="30">
+      <span *ngIf="lastName.dirty && !lastName.valid" class="error">
+        Last name is required.
+      </span>
+    </div>
+    <div class='formLine'>
+      <label for="email">*Email:</label>
+      <input type="text" id="email" name="email"
+        [(ngModel)]="user.email" #email="ngModel" required
+        maxlength="100" pattern="^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$">
+      <span *ngIf="email.dirty && !email.valid" class="error">
+        Valid email is required.
+      </span>
+    </div>
+    <div class='formLine'>
+      <label for="password">*Password:</label>
+      <input type="password" id="password" name="password"
+        [(ngModel)]="user.password" #password="ngModel" required
+        minlength="16">
+      <span *ngIf="password.dirty && !password.valid" class="error">
+        Password is required (minimum 16 characters).
+      </span>
+    </div>
+    <div class='formLine'>
+      <label for="confirm">*Password Confirmation:</label>
+      <input type="password" id="confirm" name="confirm"
+        [(ngModel)]="user.confirm" #confirm="ngModel" required
+        [pattern]="user.password">
+      <span *ngIf="(confirm.dirty || confirm.touched) && !confirm.valid" class="error">
+        Matching password confirmation is required.
+      </span>
+    </div>
+    <div class='formLine'>
+      <label for="addr1">*Street Address:</label>
+      <input type="text" id="addr1" name="addr1"
+        [(ngModel)]="user.addr1" #addr1="ngModel" required
+        minlength="4" maxlength="50">
+      <span *ngIf="addr1.dirty && !addr1.valid" class="error">
+        Address is required.
+      </span>
+    </div>
+    <div class='formLine'>
+      <label for="addr2">Unit/Apt #</label>
+      <input type="text" id="addr2" name="addr2"
+        [(ngModel)]="user.addr2" #addr2="ngModel"
+        minlength="4" maxlength="50">
+    </div>
+    <div class='formLine'>
+      <label for="city">*City:</label>
+      <input type="text" id="city" name="city"
+        [(ngModel)]="user.city" #city="ngModel" required
+        maxlength="50">
+      <span *ngIf="city.dirty && !city.valid" class="error">
+        City is required.
+      </span>
+    </div>
+    <div class='formLine'>
+      <label for="state">*State:</label>
+      <select name="state" id="state"
+        [(ngModel)]="user.state" #state="ngModel" required>
+        <option *ngFor='let state of states' value="{{state}}">
+          {{state}}
+        </option>
+      </select>
+      <span *ngIf="state.touched && !state.valid" class="error">
+        State is required.
+      </span>
+    </div>
+    <div class='formLine' id='radio'>
+      <span>*I'm feeling lucky:</span>
+      <div>
+        <input type="radio" name="lucky" id="yes" [value]="true" [(ngModel)]="user.lucky" #lucky="ngModel" required>
+        <label for="yes">Yes</label>
+        <input type="radio" name="lucky" id="no" [value]="false" [(ngModel)]="user.lucky" #lucky="ngModel" required>
+        <label for="no">No</label>
+      </div>
+      <span *ngIf="lucky.dirty && !lucky.valid" class="error">
+        Sharing how you feel is required.
+      </span>
+    </div>
+  </fieldset>
+  <button type="submit" [disabled]="!registrationForm.form.valid">Register</button>
+</form>
 
+{{ user | json }}

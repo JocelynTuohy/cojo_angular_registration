@@ -1,0 +1,30 @@
+*{
+  font-family: sans-serif;
+}
+.error{
+  color: darkred;
+  font-style: italic;
+  font-size: .8em;
+  width: 275px;
+  display: inline-block;
+}
+fieldset{
+  width: 700px;
+}
+.formLine{
+  display: block;
+}
+.formLine *:not(.error){
+  display: inline-block;
+  width: 200px;
+}
+.formLine label, #radio span{
+  text-align: right;
+}
+.formLine div *{
+  display: inline-block;
+  width: 20px;
+}
+button{
+  display: block;
+}
